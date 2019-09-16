@@ -268,7 +268,7 @@ Take_Empty_Servers_Offline()
 	
 	# if any servers where offline this won't pass
 	# keeping it here for now in case i want to fix this later
-	if [ $EmptyCount -eq $num_of_servers ] && [ $RebootAt3am = "yes" ];then
+	if [ $EmptyCount -eq $num_of_servers ] && [ $RebootAt3am = "yes" ] && [ $Time_Var == 300 ];then
 		/sbin/shutdown -r now
 	fi
 	

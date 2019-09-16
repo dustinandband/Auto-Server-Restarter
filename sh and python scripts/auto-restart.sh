@@ -25,7 +25,7 @@
 #	https://steamcommunity.com/sharedfiles/filedetails/?id=1381380872
 #
 #	2)
-#	The fields for server #1 are filled in for demonstration. You can add as many servers as you want
+#	The fields for server #1 are filled in for demonstration.
 #
 #######################
 
@@ -285,7 +285,7 @@ Python_Dependency_Test
 Time_Var=$(date +%-H%M)
 
 # empty servers get rebooted every hour (2am, 3am, 4am, etc..) to keep them refreshed
-if (( $Time_Var % 100 == 0 )); then
+if (( ${Time_Var#0} % 100 == 0 )); then
 	Take_Empty_Servers_Offline
 else
 	Launch_Any_Offline_Servers

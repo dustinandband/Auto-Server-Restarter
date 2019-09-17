@@ -43,7 +43,7 @@ public void OnPluginStart()
 {
 	new ConVar:cvarHibernateWhenEmpty = FindConVar("sv_hibernate_when_empty");
 	SetConVarInt(cvarHibernateWhenEmpty, 0, false, false);
-	}
+}
 ```
 
 The resetonempty plugin detects whatever the servers cvars are, temporarily changes them when determining if a servers offline - then changes them back.

@@ -119,7 +119,7 @@ public Action TIMER_RECHECK(Handle timer)
 	g_iTimerCount++;
 	if (!GetRealHumanCount())
 	{
-		if (g_iTimerCount >= 3)
+		if (g_iTimerCount >= 2)
 		{
 			g_bResetCvars = true;
 			ResetGameSettings();

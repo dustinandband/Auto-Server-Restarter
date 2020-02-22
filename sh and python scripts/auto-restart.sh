@@ -98,8 +98,8 @@ WorkshopCollection=(
 
 scriptcheck=`pgrep -c auto-restart.sh`
 if [ $scriptcheck -gt 1 ]; then
-    echo "auto-restart.sh script already in use. Terminating.."
-    exit
+	echo "auto-restart.sh script already in use. Terminating.."
+	exit
 fi
 
 #########################
@@ -161,16 +161,16 @@ Python_Dependency_Test()
 
 Launch_Any_Offline_Servers()
 {
-    for ((j=0;j<$num_of_servers;j++)); do
+	for ((j=0;j<$num_of_servers;j++)); do
 		echo
 		echo "---------------------------------------------"
 		echo "Determining if ${SessionName[$j]} is offline."
-        
+		
 		# This method can (rarely) return a false positive ( https://i.imgur.com/UDsFTil.png )
 		# hence 3 seperate checks.
 		
 		alive=`ps ux | grep "${SessionName[$j]}" | wc -l | awk '{ print $1 }'`
-        sleep 2s
+		sleep 2s
 		alive2=`ps ux | grep "${SessionName[$j]}" | wc -l | awk '{ print $1 }'`
 		sleep 2s
 		alive3=`ps ux | grep "${SessionName[$j]}" | wc -l | awk '{ print $1 }'`
@@ -221,28 +221,28 @@ Launch_Any_Offline_Servers()
 
 Check_Input()
 {
-    if [ -z "${num_of_servers}" ] || [ -z "${ServerIP}" ] || [ -z "${RebootAt3am}" ]; then
-        echo "Error: One of following left blank: 'num_of_servers', 'ServerIP', 'RebootAt3am'."
-        exit 1
-    fi
+	if [ -z "${num_of_servers}" ] || [ -z "${ServerIP}" ] || [ -z "${RebootAt3am}" ]; then
+		echo "Error: One of following left blank: 'num_of_servers', 'ServerIP', 'RebootAt3am'."
+		exit 1
+	fi
 
-    #Make sure all non-optional fields are completed.
-    typeset -n x
-    for x in SessionName srcds_run Parameters UpdateScript EnableUpdateCheck ServerPort RconPassword; do
-        for((j=0;j<$num_of_servers;j++)); do
-            if [ -z "${x[$j]}" ]; then
-                echo "Error: One or more non-optional items left blank."
-                exit 1
-            fi
-        done
-    done
-    echo "Initialization Check successfull."
+	#Make sure all non-optional fields are completed.
+	typeset -n x
+	for x in SessionName srcds_run Parameters UpdateScript EnableUpdateCheck ServerPort RconPassword; do
+		for((j=0;j<$num_of_servers;j++)); do
+			if [ -z "${x[$j]}" ]; then
+				echo "Error: One or more non-optional items left blank."
+				exit 1
+			fi
+		done
+	done
+	echo "Initialization Check successfull."
 }
 
 Take_Empty_Servers_Offline()
 {
 	EmptyCount=0
-    for ((j=0;j<$num_of_servers;j++)); do
+	for ((j=0;j<$num_of_servers;j++)); do
 		
 		# verify that the server's alive so we don't get banned for too many refused rcon attempts..
 		alive=`ps ux | grep "${SessionName[$j]}" | wc -l | awk '{ print $1 }'`

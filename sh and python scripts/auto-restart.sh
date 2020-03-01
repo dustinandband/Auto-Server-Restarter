@@ -120,7 +120,7 @@ Python_Dependency_Test()
 			if [ ! -e "workshop.py" ]; then
 				# This version of the workshop DLer caps failed downloads at 25,
 				# so it won't get hung up forever if valve server is down..
-				curl -o workshop.py 'https://raw.githubusercontent.com/nosoop/steam_workshop_downloader/commed-patch/workshop.py'
+				curl -o workshop.py 'https://raw.githubusercontent.com/dustinandband/steam_workshop_downloader/commed-patch/workshop.py'
 				chmod +x workshop.py
 			fi
 			

@@ -19,15 +19,14 @@ ConVar g_cvEnableSlotReset;
 ConVar g_cvHardReset;
 
 //Original Game settings
-char g_sGame[128];
-char g_sMap[64];
-char g_sGameMode[64];
+char g_sMap[32];
+char g_sGameMode[16];
 
 int g_iSlots;
 int g_iTimerCount;
 
-bool g_bGrabGameSettings	= true;
-bool g_bResetCvars			= false;
+bool g_bGrabGameSettings;
+bool g_bResetCvars;
 
 //Handles to manipulate cvars
 ConVar convar_AFKTimeout;
@@ -58,6 +57,8 @@ public void OnPluginStart()
 	convar_AllBotGame = FindConVar("sb_all_bot_game");
 	convar_AllowSurvBots = FindConVar("allow_all_bot_survivor_team");
 	convar_PostgameDelay = FindConVar("sv_hibernate_postgame_delay");
+	
+	g_bGrabGameSettings = true;
 	
 	AutoExecConfig(true, "ResetWhenEmpty");
 }
@@ -104,7 +105,7 @@ public Action PlayerDisconnect_Event(Event event, const char[] name, bool dontBr
 	
 	int client = GetClientOfUserId(GetEventInt(event, "userid"));
 
-	if (!GetRealHumanCount(client))
+	if (GetRealHumanCount(client) == 0)
 	{
 		SetAFKcvars();
 		g_iTimerCount = 0;
@@ -117,23 +118,18 @@ public Action PlayerDisconnect_Event(Event event, const char[] name, bool dontBr
 public Action TIMER_RECHECK(Handle timer)
 {
 	g_iTimerCount++;
-	if (!GetRealHumanCount())
+	if (GetRealHumanCount() == 0)
 	{
 		if (g_iTimerCount >= 2)
 		{
 			g_bResetCvars = true;
 			ResetGameSettings();
 		}
-		else
-		{
-			return Plugin_Continue;
-		}
 	}
 	else
 	{
 		ResetAFKcvars();
 		return Plugin_Stop;
-		
 	}
 	return Plugin_Continue;
 }
@@ -188,13 +184,14 @@ void StoreOriginalCvars()
 //STORING & RESETTING GAME SETTINGS
 void GrabGameSettings()
 {
-	GetGameFolderName(g_sGame, sizeof(g_sGame));
+	char sGameFolder[16];
+	GetGameFolderName(sGameFolder, sizeof(sGameFolder));
 	GetCurrentMap(g_sMap, sizeof(g_sMap));
 	GetConVarString(g_hGameMode, g_sGameMode, sizeof(g_sGameMode));
 	g_iSlots = GetConVarInt(g_hMaxSlots);
 	if (g_iSlots == -1) // sv_maxplayers not set in server.cfg
 	{
-		if (StrEqual(g_sGame, "left4dead", false) || StrEqual(g_sGame, "left4dead2", false))
+		if (StrEqual(sGameFolder, "left4dead", false) || StrEqual(sGameFolder, "left4dead2", false))
 		{
 			g_iSlots = 4;
 		}

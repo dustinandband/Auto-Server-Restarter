@@ -1,4 +1,7 @@
-# Auto-Server-Restarter
+# Auto-Server-Restarter  
+
+Outdated. TODO: use serve queries instead of rcon password to check if server's empty.  
+
 Tested on Ubuntu 18.04
 
 ## Features
